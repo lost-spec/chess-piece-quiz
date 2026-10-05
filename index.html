@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Which Chess Piece Are You?</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<canvas id="board-bg" aria-hidden="true"></canvas>
+
+<main class="shell">
+
+  <section class="screen screen-intro is-active" id="screen-intro">
+    <div class="board-ornament" aria-hidden="true">
+      <span class="orn ornament-1">♞</span>
+      <span class="orn ornament-2">♛</span>
+    </div>
+
+    <p class="eyebrow anim" style="--i:0">Personality test</p>
+    <h1 class="title anim" style="--i:1" id="title-text">Which chess piece are you?</h1>
+    <p class="lede anim" style="--i:2" id="intro-text"></p>
+
+    <div class="preview anim" style="--i:3">
+      <p class="preview-head">Six pieces are waiting on the other side</p>
+      <div class="pieces-preview" id="pieces-preview"></div>
+      <div class="piece-detail" id="piece-detail" aria-live="polite"><p class="piece-detail-inner" id="piece-detail-inner"></p></div>
+    </div>
+
+    <div class="actions anim" style="--i:4">
+      <button class="btn btn-primary btn-lg" id="btn-start" type="button">Start the test</button>
+      <span class="meta" id="intro-meta"></span>
+    </div>
+  </section>
+
+  <section class="screen screen-quiz" id="screen-quiz" hidden>
+    <header class="quiz-head">
+      <div class="progress">
+        <div class="progress-bar"><span id="progress-fill"></span><span class="progress-runner" id="progress-runner">♟</span></div>
+        <div class="progress-steps" id="progress-steps"></div>
+      </div>
+      <div class="quiz-meta">
+        <span class="round-pill" id="round-label">Round 1</span>
+        <span id="step-label">Question 1 of 3</span>
+      </div>
+    </header>
+
+    <h2 class="question" id="question-text" aria-live="polite"></h2>
+    <p class="keys-hint">Press <kbd>1</kbd>–<kbd>4</kbd> to answer, <kbd>↑</kbd><kbd>↓</kbd> to move, <kbd>Esc</kbd> to go back.</p>
+    <div class="options" id="options"></div>
+
+    <footer class="quiz-foot">
+      <button class="btn btn-ghost" id="btn-back" type="button">Back</button>
+      <span class="hint" id="hint"></span>
+    </footer>
+  </section>
+
+  <section class="screen screen-result" id="screen-result" hidden>
+    <div class="burst" id="burst" aria-hidden="true"></div>
+
+    <p class="eyebrow anim" style="--i:0">Your result</p>
+    <div class="result-piece">
+      <span class="glyph" id="result-glyph"></span>
+      <div class="result-head">
+        <h2 class="result-name" id="result-name"></h2>
+        <p class="result-tagline" id="result-tagline"></p>
+      </div>
+    </div>
+    <p class="result-description" id="result-description"></p>
+
+    <h3 class="section-title">Score breakdown</h3>
+    <div class="scores" id="scores"></div>
+
+    <h3 class="section-title">How you scored</h3>
+    <ol class="recap" id="recap"></ol>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="btn-restart" type="button">Retake the test</button>
+      <button class="btn btn-ghost" id="btn-share" type="button">Copy my result</button>
+      <button class="btn btn-ghost" id="btn-stats-open" type="button">Full board analysis</button>
+    </div>
+  </section>
+
+  <section class="screen screen-stats" id="screen-stats" hidden>
+    <header class="stats-head" data-reveal>
+      <div>
+        <p class="eyebrow">Board analysis</p>
+        <h2 class="title" id="stats-title">Your game, examined</h2>
+      </div>
+      <button class="btn btn-ghost" id="btn-stats-back" type="button">Back to result</button>
+    </header>
+
+    <div class="kpis" id="kpis" data-reveal></div>
+
+    <h3 class="section-title" data-reveal>Shape of your scores</h3>
+    <div class="chart-card" data-reveal data-par>
+      <div class="radar-wrap" id="radar"></div>
+      <p class="chart-note">Each spoke is a piece. The further out it sits, the more of that piece you collected. The gold shape is your final board.</p>
+    </div>
+
+    <h3 class="section-title" data-reveal>When the result was decided</h3>
+    <div class="chart-card" data-reveal data-par>
+      <div class="line-wrap" id="line-chart"></div>
+      <p class="chart-note" id="line-note"></p>
+    </div>
+
+    <h3 class="section-title" data-reveal>One answer away</h3>
+    <div class="flips" id="flips" data-reveal></div>
+
+    <h3 class="section-title" data-reveal>What if you had answered differently?</h3>
+    <p class="section-lede" data-reveal>Every question you were asked, replayed with each other option. The result each answer would have produced is shown on the right.</p>
+    <div class="cf-grid" id="cf-grid" data-reveal></div>
+
+    <h3 class="section-title" data-reveal>How common is your piece?</h3>
+    <div class="chart-card" data-reveal data-par>
+      <div class="histo" id="histo"></div>
+      <p class="chart-note" id="histo-note"></p>
+    </div>
+
+    <div class="actions" data-reveal><button class="btn btn-primary" id="btn-stats-retry" type="button">Take it again</button>
+      <button class="btn btn-ghost" id="btn-stats-result" type="button">Back to your result</button>
+    </div>
+  </section>
+
+  <section class="screen screen-empty" id="screen-empty" hidden>
+    <p class="eyebrow">Base version</p>
+    <h2 class="title">Questions not filled in yet</h2>
+    <p class="lede" id="empty-text"></p>
+    <div class="card" id="empty-report"></div>
+  </section>
+
+</main>
+
+<script src="content.js"></script>
+<script src="motion.js"></script>
+<script src="background.js"></script>
+<script src="app.js"></script>
+<script src="stats.js"></script>
+<script src="effects.js"></script>
+</body>
+</html>
